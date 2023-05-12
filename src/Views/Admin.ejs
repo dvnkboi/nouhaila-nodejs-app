@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link type="text/css" rel="stylesheet" href="/assets/style.css">
+</head>
+
+<body class="flex justify-center items-center flex-column">
+  <%- include('templates/navbar', {active: 'admin', user}) %>
+  <div class="flex justify-start items-center gap-3 px-3 py-3 flex-column h-full w-full flex-shrink">
+    <h1>Admin console</h1>
+    <% if (users.length < 1) { %>
+    <h3>No users found</h3>
+    <% } %>
+    <% for( let index = 0; index < users.length; index++ ) { %>
+    <div class="rounded-2xl px-3 py-3 flex justify-between items-center flex-wrap w-full bg-gray-100 shadow-xl">
+      <h5><%= users[index].name %></h5>
+      <h5><%= users[index].email %></h5>
+      <h5><%= users[index].age %></h5>
+      <h5><%= users[index].phone %></h5>
+      <!-- delete user -->
+      <form action="delete" method="POST">
+        <input type="hidden" name="email" value="<%= users[index].email %>">
+        <button type="submit">delete</button>
+      </form>
+    </div>
+    <% } %>
+  </div>
+</body>
+
+</html>

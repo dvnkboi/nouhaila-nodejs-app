@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link type="text/css" rel="stylesheet" href="/assets/style.css">
+</head>
+
+<body class="h-full w-full flex justify-start items-center bg-gray-50 flex-column gap-2">
+  <%- include('templates/navbar', {active: 'profile', user}) %>
+  <h1>User profile for</h1>
+  <h5><%- email %></h5>
+  <form autocomplete="off" action="update" method="POST" class="flex justify-center items-center px-4 py-3 rounded-3xl bg-gray-200 shadow-xl flex-column gap-2" style="min-width: 25rem;">
+    <h2>Update</h2>
+    <input type="hidden" name="email" value="<%= email %>">
+    <label for="name">name</label>
+    <input type="text" name="name" value="<%= name %>">
+    <label for="age">age</label>
+    <input type="number" name="age" value="<%= age %>">
+    <label for="phone">phone</label>
+    <input type="tel" name="phone" value="<%= phone %>">
+    <div class="flex justify-center items-center gap-2" style="padding-top: 2rem;">
+      <h2>Change password</h2>
+      <input type="checkbox" id="changepass" value="Change password" class="scale-150">
+    </div>
+    <div id="changePassword" class="flex justify-center items-center flex-column">
+      <label for="password">password</label>
+      <input id="pass" type="password" name="password" placeholder="password" autocomplete="off">
+      <label for="confirmPassword">confirm password</label>
+      <input id="passConfirm" type="password" name="confirmPassword" placeholder="password Confirmation" autocomplete="off">
+      <h6 style="opacity: 0.5;font-size: 0.7rem;line-height: 50%;">* Minimum eight characters</h6>
+      <h6 style="opacity: 0.5;font-size: 0.7rem;line-height: 50%;">* at least one uppercase letter</h6>
+      <h6 style="opacity: 0.5;font-size: 0.7rem;line-height: 50%;">* one lowercase letter and one number</h6>
+    </div>
+    <button id="updateButton" type="submit">update</button>
+  </form>
+</body>
+
+</html>
+
+<script>
+  const updateButton = document.getElementById('updateButton');
+  const pass = document.getElementById('pass');
+  const passConfirm = document.getElementById('passConfirm');
+  const changepass = document.getElementById('changepass');
+
+  if (changepass.checked) {
+    pass.disabled = false;
+    passConfirm.disabled = false;
+  } else {
+    pass.disabled = true;
+    passConfirm.disabled = true;
+  }
+
+  changepass.addEventListener('click', () => {
+    if (changepass.checked) {
+      pass.disabled = false;
+      passConfirm.disabled = false;
+    } else {
+      pass.value = '';
+      passConfirm.value = '';
+      pass.disabled = true;
+      passConfirm.disabled = true;
+      updateButton.disabled = false;
+    }
+  });
+
+  function passwordValid(password) {
+    // Minimum eight characters, at least one uppercase letter, one lowercase letter and one number
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    return regex.test(password);
+  }
+
+  passConfirm.addEventListener('keyup', () => {
+    if (!changepass.checked) return;
+    if (pass.value === passConfirm.value && passwordValid(pass.value)) {
+      updateButton.disabled = false;
+    } else {
+      updateButton.disabled = true;
+    }
+  });
+
+  pass.addEventListener('keyup', () => {
+    if (!changepass.checked) return;
+    if (pass.value === passConfirm.value && passwordValid(pass.value)) {
+      updateButton.disabled = false;
+    } else {
+      updateButton.disabled = true;
+    }
+  });
+</script>

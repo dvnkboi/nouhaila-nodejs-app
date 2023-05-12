@@ -1,0 +1,59 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link type="text/css" rel="stylesheet" href="/assets/style.css">
+</head>
+
+<body class="h-full w-full flex justify-center items-center bg-gray-50 flex-column gap-2">
+  <h1>Register</h1>
+  <form action="register" method="POST" autocomplete="off" action="update" method="POST" class="flex justify-center items-center px-4 py-3 rounded-3xl bg-gray-200 shadow-xl flex-column gap-2" style="min-width: 25rem;">
+    <input type="text" name="name" placeholder="name">
+    <input type="text" name="email" placeholder="email">
+    <input type="number" name="age" placeholder="age">
+    <input type="tel" name="phone" placeholder="phone">
+    <input id="pass" type="password" name="password" placeholder="password">
+    <input id="passConfirm" type="password" name="password Confirmation" placeholder="repeat password">
+    <h6 style="opacity: 0.5;font-size: 0.7rem;line-height: 50%;">* Minimum eight characters</h6>
+    <h6 style="opacity: 0.5;font-size: 0.7rem;line-height: 50%;">* at least one uppercase letter</h6>
+    <h6 style="opacity: 0.5;font-size: 0.7rem;line-height: 50%;">* one lowercase letter and one number</h6>
+    <button id="registerBtn" type="submit">register</button>
+  </form>
+  <a href="login">or login instead</a>
+</body>
+
+</html>
+
+<script>
+  const registerBtn = document.getElementById('registerBtn');
+  const pass = document.getElementById('pass');
+  const passConfirm = document.getElementById('passConfirm');
+
+  registerBtn.disabled = true;
+
+  function passwordValid(password) {
+    // Minimum eight characters, at least one uppercase letter, one lowercase letter and one number
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    return regex.test(password);
+  }
+
+
+  passConfirm.addEventListener('keyup', () => {
+    if (pass.value !== passConfirm.value || !passwordValid(pass.value)) {
+      registerBtn.disabled = true;
+    } else {
+      registerBtn.disabled = false;
+    }
+  });
+
+  pass.addEventListener('keyup', () => {
+    if (pass.value !== passConfirm.value || !passwordValid(pass.value)) {
+      registerBtn.disabled = true;
+    } else {
+      registerBtn.disabled = false;
+    }
+  });
+</script>

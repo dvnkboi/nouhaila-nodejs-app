@@ -1,0 +1,9 @@
+<div class="px-5 py-4 w-full flex justify-center items-center">
+  <div class="px-4 py-3 bg-gray-200 shadow-xl rounded-2xl flex justify-center items-center gap-4" style="width: fit-content;">
+    <a href="/user/profile" class="bg-gray-50 shadow-md rounded-lg px-2 py-1 text-gray-900 font-bold <%if(active=="profile"){%>active<%}%>" >Profile</a>
+    <% if (user.privilege == 'admin') { %>
+      <a href=" /admin/manage" class="bg-gray-50 shadow-md rounded-lg px-2 py-1 text-gray-900 font-bold <%if(active=="admin"){%>active<%}%>">Admin</a>
+    <% } %> 
+    <a href=" /auth/logout" class="bg-gray-50 shadow-md rounded-lg px-2 py-1 text-rose-500 font-bold">Logout</a>
+  </div>
+</div>
