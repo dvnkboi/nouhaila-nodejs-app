@@ -9,6 +9,11 @@ import { config } from 'dotenv';
 const BaseDatabase = BaseDb.default;
 config();
 
+const escape = (value) => {
+    if (process.env.ESCAPE_SQL == 'false') return value;
+    return SqlString.escape(value).split("'").join("");
+};
+
 
 export class Connector {
 
@@ -167,21 +172,21 @@ export class Connector {
         let query;
 
         //escaping
-        table = SqlString.escape(table).split("'").join("");
-        col = SqlString.escape(col).split("'").join("");
-        ref = SqlString.escape(ref).split("'").join("");
+        table = escape(table);
+        col = escape(col);
+        ref = escape(ref);
 
         //pagination and sort
         let queryLimit;
         let querySort;
 
-        this.limit = parseInt(SqlString.escape(this.limit));
-        this.offset = this.offset ? parseInt(SqlString.escape(this.offset)) : 0;
+        this.limit = parseInt(escape(this.limit));
+        this.offset = this.offset ? parseInt(escape(this.offset)) : 0;
         queryLimit = `LIMIT ${this.limit} OFFSET ${this.offset} `;
 
         if (this.sortRef) {
-            this.sortRef = SqlString.escape(this.sortRef).split("'").join("");
-            this.sortDir = SqlString.escape(this.sortDir).split("'").join("");
+            this.sortRef = escape(this.sortRef);
+            this.sortDir = escape(this.sortDir);
             if (this.sortDir == 'asc') {
                 querySort = `ORDER BY ${this.sortRef} ASC `;
             }
@@ -228,7 +233,7 @@ export class Connector {
         await this.connect();
 
         //escaping
-        table = SqlString.escape(table).split("'").join("");
+        table = escape(table);
 
         //pagination and sort
         let queryLimit;
@@ -236,14 +241,14 @@ export class Connector {
         this.limit = this.limit ? this.limit : this.defaultLimit;
 
         if (!nolimit) {
-            this.limit = parseInt(SqlString.escape(this.limit));
-            this.offset = this.offset ? parseInt(SqlString.escape(this.offset)) : 0;
+            this.limit = parseInt(escape(this.limit));
+            this.offset = this.offset ? parseInt(escape(this.offset)) : 0;
             queryLimit = `LIMIT ${this.limit} OFFSET ${this.offset} `;
         }
 
         if (this.sortRef) {
-            this.sortRef = SqlString.escape(this.sortRef).split("'").join("");
-            this.sortDir = SqlString.escape(this.sortDir).split("'").join("");
+            this.sortRef = escape(this.sortRef);
+            this.sortDir = escape(this.sortDir);
             if (this.sortDir == 'asc') {
                 querySort = `ORDER BY ${this.sortRef} ASC `;
             }
