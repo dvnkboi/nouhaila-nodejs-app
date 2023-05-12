@@ -25,11 +25,11 @@ export const update = async (req, res, next) => {
   }
   await updatedUser.save();
   res.render('User.ejs', {
-    name: user.name,
-    email: user.email,
-    age: user.age,
-    phone: user.phone,
-    password: user.password,
+    name: updatedUser.name,
+    email: updatedUser.email,
+    age: updatedUser.age,
+    phone: updatedUser.phone,
+    password: updatedUser.password,
     user: updatedUser,
   });
 };
