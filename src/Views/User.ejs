@@ -31,9 +31,11 @@
       <input id="pass" type="password" name="password" placeholder="password" autocomplete="off">
       <label for="confirmPassword">confirm password</label>
       <input id="passConfirm" type="password" name="confirmPassword" placeholder="password Confirmation" autocomplete="off">
+      <% if (validatePasswords) { %>
       <h6 style="opacity: 0.5;font-size: 0.7rem;line-height: 50%;">* Minimum eight characters</h6>
       <h6 style="opacity: 0.5;font-size: 0.7rem;line-height: 50%;">* at least one uppercase letter</h6>
       <h6 style="opacity: 0.5;font-size: 0.7rem;line-height: 50%;">* one lowercase letter and one number</h6>
+      <% } %>
     </div>
     <button id="updateButton" type="submit">update</button>
   </form>
@@ -68,12 +70,6 @@
     }
   });
 
-  function passwordValid(password) {
-    // Minimum eight characters, at least one uppercase letter, one lowercase letter and one number
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-    return regex.test(password);
-  }
-
   passConfirm.addEventListener('keyup', () => {
     if (!changepass.checked) return;
     if (pass.value === passConfirm.value && passwordValid(pass.value)) {
@@ -92,3 +88,19 @@
     }
   });
 </script>
+
+<% if (validatePasswords) { %>
+<script>
+  function passwordValid(password) {
+    // Minimum eight characters, at least one uppercase letter, one lowercase letter and one number
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    return regex.test(password);
+  }
+</script>
+<% } else { %>
+<script>
+  function passwordValid(password) {
+    return true;
+  }
+</script>
+<% } %>

@@ -24,6 +24,11 @@ app.get("/", (req, res) => {
   res.redirect("/user/profile");
 });
 
+app.use((req, res, next) => {
+  console.log(Date.now(), req.url);
+  next();
+});
+
 app.use("/auth", authRouter);
 
 app.use(authenticateToken);

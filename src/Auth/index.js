@@ -1,6 +1,5 @@
 import { config } from 'dotenv';
 import jwt from 'jsonwebtoken';
-
 import { User } from '../Database/models/user.js';
 
 config();
@@ -22,6 +21,7 @@ export const authenticateToken = (req, res, next) => {
       return;
     }
     res.locals.user = await User.get(payload.email);
+    if (!res.locals.user) res.redirect('/auth/login');
     next();
   });
 };
@@ -37,6 +37,7 @@ export const login = async (req, res, next) => {
     return next(error);
   }
 
+
   if (!existingUser) {
     const error = Error("Wrong details please check again");
     return next(error);
@@ -44,7 +45,7 @@ export const login = async (req, res, next) => {
 
   const passwordValid = await existingUser.checkPassword(password, existingUser.password);
   if (!passwordValid) {
-    const error = Error("Wrong details please check again");
+    const error = Error(`Wrong details please check again`);
     return next(error);
   }
   let token;

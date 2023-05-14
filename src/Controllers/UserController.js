@@ -1,4 +1,8 @@
+import { config } from "dotenv";
 import { User } from "../Database/models/user.js";
+
+config();
+const validatePasswords = process.env.VALIDATE_PASSWORDS == "true" ? true : false;
 
 export const profile = (req, res, next) => {
   const user = res.locals.user;
@@ -9,6 +13,7 @@ export const profile = (req, res, next) => {
     phone: user.phone,
     password: user.password,
     user: res.locals.user,
+    validatePasswords
   });
 };
 
@@ -31,5 +36,6 @@ export const update = async (req, res, next) => {
     phone: updatedUser.phone,
     password: updatedUser.password,
     user: updatedUser,
+    validatePasswords
   });
 };

@@ -3,6 +3,7 @@ import { config } from 'dotenv';
 import { hash, compare } from "bcrypt";
 
 config();
+const hashPasswords = process.env.HASH_PASSWORDS == 'true' ? true : false;
 
 export class User {
   constructor(email, password, name = '', age = 0, phone = '', privilege = 'user') {
@@ -16,7 +17,7 @@ export class User {
 
   async save() {
     const exists = await mysqlInstance.getMatching('user', 'email', this.email, true);
-    this.password = await hash(this.password, 10);
+    if (hashPasswords) this.password = await hash(this.password, 10);
 
     if (exists && exists.length > 0) {
       //encrypt password
@@ -102,6 +103,12 @@ export class User {
   }
 
   async checkPassword(password) {
+    if (!hashPasswords) {
+      if (password == this.password) return true;
+      else {
+        return await compare(password, this.password);
+      }
+    };
     return await compare(password, this.password);
   }
 }
