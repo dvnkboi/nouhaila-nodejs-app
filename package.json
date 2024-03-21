@@ -17,7 +17,7 @@
     "dotenv": "^16.0.3",
     "ejs": "^3.1.9",
     "events": "^3.3.0",
-    "express": "^4.18.2",
+    "express": "^4.18.3",
     "jsonwebtoken": "^9.0.0",
     "mysql": "^2.18.1",
     "mysql-async-wrapper": "^2.0.1",
